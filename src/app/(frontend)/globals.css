@@ -89,7 +89,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-white text-text-body min-h-[100vh] flex flex-col;
+    font-family: var(--font-geist-sans);
+  }
+
+  /* Studio-specific styling */
+  main {
+    @apply flex-1;
   }
 }
 
@@ -100,4 +106,41 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+}
+
+@layer utilities {
+  /* Accessibility: Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Typography utilities */
+  .prose-studio {
+    @apply space-y-6;
+  }
+
+  .prose-studio h2 {
+    @apply mt-12 mb-4;
+  }
+
+  .prose-studio h3 {
+    @apply mt-8 mb-3;
+  }
+
+  .prose-studio p {
+    @apply mb-4;
+  }
+}
+
+/* Text wrap balance for better heading appearance */
+@supports (text-wrap: balance) {
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
 }
