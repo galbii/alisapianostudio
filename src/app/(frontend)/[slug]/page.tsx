@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home'
+      return doc.slug !== 'home' && doc.slug !== 'contact'
     })
     .map(({ slug }) => {
       return { slug }
@@ -49,6 +49,12 @@ export default async function Page({ params: paramsPromise }: Args) {
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const url = '/' + decodedSlug
+
+  // Redirect if this is a reserved route
+  if (decodedSlug === 'contact') {
+    return <PayloadRedirects url={url} />
+  }
+
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 
   page = await queryPageBySlug({
